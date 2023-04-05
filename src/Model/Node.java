@@ -71,4 +71,9 @@ public class Node {
         Node node = (Node) obj;
         return node.getValue().equalsIgnoreCase(this.value);
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -33,11 +33,11 @@ public class TextIndexer {
             });
     }
 
-    public void printTree(){
-        System.out.println(patriciaTree.toString());
+    public PatTree getPatriciaTree() {
+        return patriciaTree;
     }
 
-    public String extractTextFromFile(String filePath) throws IOException {
+    private String extractTextFromFile(String filePath) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;

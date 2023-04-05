@@ -1,6 +1,7 @@
 package Service;
 
 import Model.PatTree;
+import Model.SuffixTree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,10 +12,12 @@ import java.util.Arrays;
 public class TextIndexer {
 
     private PatTree patriciaTree;
+    private SuffixTree suffixTree;
     private File dir;
 
     public TextIndexer(String dir) {
         this.patriciaTree = new PatTree();
+        this.suffixTree=new SuffixTree();
         this.dir = new File(dir);
         index();
     }
@@ -25,7 +28,9 @@ public class TextIndexer {
             Arrays.stream(files).forEach(f ->{
                 try {
                     String text = extractTextFromFile(f.getAbsolutePath());
+                    System.out.println(f.getName());
                     patriciaTree.addText(text, f.getAbsolutePath());
+                    suffixTree.insertSuffixes(text, f.getAbsolutePath());
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                     throw new RuntimeException(e);
@@ -35,6 +40,10 @@ public class TextIndexer {
 
     public PatTree getPatriciaTree() {
         return patriciaTree;
+    }
+
+    public SuffixTree getSuffixTree() {
+        return suffixTree;
     }
 
     private String extractTextFromFile(String filePath) throws IOException {

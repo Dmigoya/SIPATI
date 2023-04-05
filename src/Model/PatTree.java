@@ -50,16 +50,16 @@ public class PatTree {
         }
     }
 
-    public List<String> findWord(String word){
-        Node node = findNodeWord(word);
+    public List<String> searchWord(String word){
+        Node node = searchNodeWord(word);
         return node != null ? node.getDirs() : null;
     }
 
     public void removeWord(String word){
-        Node node = findNodeWord(word);
+        Node node = searchNodeWord(word);
         node.getDirs().clear();
     }
-    private Node findNodeWord(String word){
+    private Node searchNodeWord(String word){
         Node node = root;
         Node nodeTmp = null;
         List<Node> nodes = node.getNodes();

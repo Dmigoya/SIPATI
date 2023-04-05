@@ -2,11 +2,11 @@ package Model;
 
 import java.util.*;
 
-public class SuffixTreeIndexer {
+public class SuffixTree {
 
     private Node root=new Node("");
 
-    private void insertSuffixes(String document, String documentDir) {
+    public void insertSuffixes(String document, String documentDir) {
         for (int i = 0; i < document.length(); i++) {
             String suffix = document.substring(i);
             insertSuffix(suffix, documentDir, root);
@@ -33,13 +33,10 @@ public class SuffixTreeIndexer {
         insertSuffix(suffix.substring(1), documentDir, childNode);
     }
 
-    private List<String> search(String query) {
+    public List<String> search(String query) {
         Node node = root;
-        System.out.println("nodes: "+node.getNodes());
         for (char c : query.toCharArray()) {
             int ind=indexOfChild(node,""+c);
-            System.out.println("char: "+c);
-            System.out.println("here "+ind);
             if(ind!=-1) {
                 node = node.getNodes().get(ind);
             }else
@@ -79,21 +76,22 @@ public class SuffixTreeIndexer {
     }
 
     private int indexOfChild(Node node, String value){
-        for (int i = 0; i < node.getNodes().size(); i++) {
-            if(node.getNodes().get(i).getValue().equals(value))
-                return i;
-        }
+        if(node.getNodes()!=null)
+            for (int i = 0; i < node.getNodes().size(); i++) {
+                if(node.getNodes().get(i).getValue().equals(value))
+                    return i;
+            }
         return -1;
     }
 
     public static void main(String[] args) {
         // Ejemplo de uso
-        SuffixTreeIndexer suffixTreeIndexer=new SuffixTreeIndexer();
+        SuffixTree suffixTree =new SuffixTree();
         List<String> documents = Arrays.asList("hola mundo", "mundo cruel", "hola hola");
         for (int i = 0; i < documents.size(); i++) {
-            suffixTreeIndexer.insertSuffixes(documents.get(i), "f_"+i);
+            suffixTree.insertSuffixes(documents.get(i), "f_"+i);
         }
-        List<String> result = suffixTreeIndexer.search("hola");
+        List<String> result = suffixTree.search("hola");
         System.out.println(result); // Output: [0, 2]
     }
 

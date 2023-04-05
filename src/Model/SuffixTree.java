@@ -14,7 +14,12 @@ public class SuffixTree {
     }
 
     private void insertSuffix(String suffix, String documentDir, Node node) {
+        if(node.getDirs()!=null){
+            if(!node.getDirs().contains(documentDir))
+                node.addDir(documentDir);
+        }else{
         node.addDir(documentDir);
+        }
         if (suffix.isEmpty()) {
             return;
         }

@@ -37,7 +37,7 @@ public class TextIndexer {
         return patriciaTree;
     }
 
-    public String extractTextFromFile(String filePath) throws IOException {
+    private String extractTextFromFile(String filePath) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;

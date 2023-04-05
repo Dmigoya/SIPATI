@@ -1,0 +1,10 @@
+DO = C
+RE = D
+MI = E
+FA = F
+SOL= G
+LA = A
+SI = B
+
+Sostenidos = #
+Bemoles = b

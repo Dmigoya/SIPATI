@@ -1,0 +1,7 @@
+a-La
+b-si
+c-Do
+d-Re
+e-Mi
+f-Fa
+g-Sol

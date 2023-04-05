@@ -8,7 +8,7 @@ public class Main {
     //"SIPATI" (Sufix and PATricia Tree Indexer)
     public static void main(String[] args) {
         System.out.println("Indexando...");
-        TextIndexer textIndexer = new TextIndexer("/mnt/gaveton/Programming/Workspaces/Idea/SIPATI/files");
+        TextIndexer textIndexer = new TextIndexer("files");
         System.out.println("¡Documentos indexados!");
         while(true){
             System.out.println("Menu:");

@@ -1,45 +1,52 @@
 package Service;
 
-import org.apache.commons.collections4.Trie;
-import org.apache.commons.collections4.trie.PatriciaTrie;
+import Model.PatTree;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 public class TextIndexer {
 
-    private Trie<String, Integer> patriciaTree;
+    private PatTree patriciaTree;
+    private File dir;
 
-    public TextIndexer(String text) {
-        this.patriciaTree = new PatriciaTrie<>();
-        indexText(text);
+    public TextIndexer(String dir) {
+        this.patriciaTree = new PatTree();
+        this.dir = new File(dir);
+        index();
     }
 
-    private void indexText(String text) {
-        String[] words = preprocessText(text);
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-            patriciaTree.put(word, i);
+    private void index() {
+        File [] files = this.dir.listFiles();
+        if (files != null && files.length > 0)
+            Arrays.stream(files).forEach(f ->{
+                try {
+                    String text = extractTextFromFile(f.getAbsolutePath());
+                    patriciaTree.addText(text, f.getAbsolutePath());
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                    throw new RuntimeException(e);
+                }
+            });
+    }
+
+    public void printTree(){
+        System.out.println(patriciaTree.toString());
+    }
+
+    public String extractTextFromFile(String filePath) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n"); // Agregamos una nueva línea ya que readLine() elimina los caracteres de nueva línea
+            }
         }
-    }
-
-    public boolean searchWord(String word) {
-        return patriciaTree.containsKey(word);
-    }
-
-    public void removeWord(String word) {
-        patriciaTree.remove(word);
-    }
-
-    private String[] preprocessText(String text) {
-        // Expresión regular para eliminar caracteres vacíos como coma, punto, etc.
-        String cleanedText = text.replaceAll("[^\\w\\s]+", " ");
-
-        // Eliminar palabras vacías
-        String[] words = cleanedText.split("\\s+");
-
-        return words;
+        return sb.toString();
     }
 
 }
